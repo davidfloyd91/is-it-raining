@@ -10,6 +10,8 @@ const port = 3000;
 
 const googleKey = process.env.GOOGLE_API_KEY;
 
+let lat, lng;
+
 const options = {
   hostname: 'www.googleapis.com',
   path: `/geolocation/v1/geolocate?key=${googleKey}`,
@@ -30,6 +32,10 @@ app.get('/location', (req, res) => {
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       console.log(`BODY: ${chunk}`);
+
+      let coords = JSON.parse(chunk);
+      lat = coords.location.lat;
+      lng = coords.location.lng;
     });
 
     res.on('end', () => {
