@@ -2,8 +2,6 @@
 
 // $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
 
-// $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
-
 // $ curl -X GET -H 'Content-Type: application/json' https://api.darksky.net/forecast/$DARK_SKY_API_KEY/40.687,-73.953
 
 const express = require('express');
