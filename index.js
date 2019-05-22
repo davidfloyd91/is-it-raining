@@ -1,6 +1,6 @@
-// curl -X GET -H 'content-type: application/json' http://localhost:3000/
+// $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/location
 
-// curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
+// $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
 
 const express = require('express');
 const https = require('https');
