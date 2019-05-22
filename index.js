@@ -2,13 +2,17 @@
 
 // $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
 
+// $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
+
+// $ curl -X GET -H 'Content-Type: application/json' https://api.darksky.net/forecast/$DARK_SKY_API_KEY/40.687,-73.953
+
 const express = require('express');
 const https = require('https');
-
 const app = express();
 const port = 3000;
 
 const googleKey = process.env.GOOGLE_API_KEY;
+const darkSkyKey = process.env.DARK_SKY_API_KEY;
 
 let lat, lng;
 
@@ -16,9 +20,7 @@ const options = {
   hostname: 'www.googleapis.com',
   path: `/geolocation/v1/geolocate?key=${googleKey}`,
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  headers: { 'Content-Type': 'application/json' }
 };
 
 app.get('/', (req, res) => {
