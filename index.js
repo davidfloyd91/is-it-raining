@@ -1,7 +1,7 @@
 // $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/location
+// $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/weather
 
 // $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
-
 // $ curl -X GET -H 'Content-Type: application/json' https://api.darksky.net/forecast/$DARK_SKY_API_KEY/0,0
 
 const express = require('express');
@@ -46,7 +46,7 @@ app.get('/location', (req, res) => {
   });
 
   request.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
+    console.error(`Problem with request: ${e.message}`);
   });
 
   request.end();
@@ -61,24 +61,28 @@ const setDarkSkyOptions = () => {
 };
 
 app.get('/weather', (req, res) => {
-  const request = https.request(darkSkyOptions, (response) => {
-    console.log(`STATUS: ${response.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
-    response.setEncoding('utf8');
-    response.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`);
+  if (darkSkyOptions) {
+    const request = https.request(darkSkyOptions, (response) => {
+      console.log(`STATUS: ${response.statusCode}`);
+      console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+      response.setEncoding('utf8');
+      response.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+      });
+
+      response.on('end', () => {
+        console.log('No more data in response.');
+      });
     });
 
-    response.on('end', () => {
-      console.log('No more data in response.');
+    request.on('error', (e) => {
+      console.error(`Problem with request: ${e.message}`);
     });
-  });
 
-  request.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-
-  request.end();
+    request.end();
+  } else {
+    console.log('Cannot complete query, coordinates unavailable.');
+  };
 });
 
 app.listen(port, () => {
