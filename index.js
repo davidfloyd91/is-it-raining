@@ -1,9 +1,6 @@
 // $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/location
 // $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/weather
 
-// $ curl -X POST -H 'Content-Type: application/json' https://www.googleapis.com/geolocation/v1/geolocate?key=$GOOGLE_API_KEY
-// $ curl -X GET -H 'Content-Type: application/json' https://api.darksky.net/forecast/$DARK_SKY_API_KEY/0,0
-
 const express = require('express');
 const https = require('https');
 const app = express();
@@ -12,7 +9,7 @@ const port = 3000;
 const googleKey = process.env.GOOGLE_API_KEY;
 const darkSkyKey = process.env.DARK_SKY_API_KEY;
 
-let lat, lng, darkSkyOptions, minutelyForecast;
+let lat, lng, darkSkyOptions, minutelyForecast, isItRaining;
 
 const googleOptions = {
   hostname: 'www.googleapis.com',
@@ -81,7 +78,10 @@ app.get('/weather', (req, res) => {
         let parsed = JSON.parse(data);
         minutelyForecast = parsed.minutely;
 
-        console.log(minutelyForecast);
+        if (minutelyForecast) {
+          setIsItRaining();
+          console.log(isItRaining);
+        };
       });
     });
 
@@ -94,6 +94,22 @@ app.get('/weather', (req, res) => {
     console.log('Cannot complete query, coordinates unavailable.');
   };
 });
+
+const setIsItRaining = () => {
+  let precipArr = minutelyForecast.data.map(min => {
+    return min.precipProbability;
+  });
+
+  precipArr.forEach(prob => {
+    if (prob >= 0.5) {
+      isItRaining = 2;
+    } else if (prob >= 0.1) {
+      isItRaining = 1;
+    } else {
+      isItRaining = 0;
+    };
+  });
+};
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
