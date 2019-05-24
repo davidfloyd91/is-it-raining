@@ -55,7 +55,7 @@ app.get('/location', cors(corsOptions), (req, res) => {
   request.end();
 });
 
-app.get('/weather/:lat,:lng', (req, res) => {
+app.get('/weather/:lat,:lng', cors(corsOptions), (req, res) => {
   const lat = req.params.lat;
   const lng = req.params.lng;
 
