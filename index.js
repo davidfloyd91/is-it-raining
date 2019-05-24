@@ -4,7 +4,6 @@
 // $ curl -X GET -H 'Content-Type: application/json' http://is-it-raining-env.mqxjxhgsyd.us-east-1.elasticbeanstalk.com/location
 // $ curl -X GET -H 'Content-Type: application/json' http://is-it-raining-env.mqxjxhgsyd.us-east-1.elasticbeanstalk.com/weather
 
-
 const express = require('express');
 const https = require('https');
 const app = express();
@@ -12,8 +11,6 @@ const port = 8081;
 
 const googleKey = process.env.GOOGLE_API_KEY;
 const darkSkyKey = process.env.DARK_SKY_API_KEY;
-
-// let lat, lng, darkSkyOptions, minutelyForecast, isItRaining;
 
 const googleOptions = {
   hostname: 'www.googleapis.com',
@@ -39,14 +36,10 @@ app.get('/location', (req, res) => {
     });
 
     response.on('end', () => {
-      let coords = JSON.parse(data);
-
-      // lat = coords.location.lat.toFixed(3);
-      // lng = coords.location.lng.toFixed(3);
-      // setDarkSkyOptions();
-
-      res.send(coords);
       console.log('No more data in response.');
+
+      let coords = JSON.parse(data);
+      res.send(coords);
     });
   });
 
@@ -56,14 +49,6 @@ app.get('/location', (req, res) => {
 
   request.end();
 });
-
-// const setDarkSkyOptions = () => {
-  // darkSkyOptions = {
-  //   hostname: 'api.darksky.net',
-  //   path: `/forecast/${darkSkyKey}/${lat},${lng}`,
-  //   headers: { 'Content-Type': 'application/json' }
-  // };
-// };
 
 app.get('/weather/:lat,:lng', (req, res) => {
   const lat = req.params.lat;
@@ -77,55 +62,29 @@ app.get('/weather/:lat,:lng', (req, res) => {
     headers: { 'Content-Type': 'application/json' }
   };
 
-  // if (darkSkyOptions) {
-    const request = https.request(darkSkyOptions, (response) => {
-      console.log(`STATUS: ${response.statusCode}`);
-      console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
-      response.setEncoding('utf8');
-      response.on('data', (chunk) => {
-        console.log(`BODY: ${chunk}`);
-        data += chunk;
-      });
-
-      response.on('end', () => {
-        console.log('No more data in response.');
-
-        let parsed = JSON.parse(data);
-        // minutelyForecast = parsed.minutely;
-        //
-        // if (minutelyForecast) {
-        //   setIsItRaining();
-        // };
-
-        res.send(parsed);
-      });
+  const request = https.request(darkSkyOptions, (response) => {
+    console.log(`STATUS: ${response.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
+    response.setEncoding('utf8');
+    response.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+      data += chunk;
     });
 
-    request.on('error', (e) => {
-      console.error(`Problem with request: ${e.message}`);
-    });
+    response.on('end', () => {
+      console.log('No more data in response.');
 
-    request.end();
-  // } else {
-  //   console.log('Cannot complete query, coordinates unavailable.');
-  // };
+      let parsed = JSON.parse(data);
+      res.send(parsed);
+    });
+  });
+
+  request.on('error', (e) => {
+    console.error(`Problem with request: ${e.message}`);
+  });
+
+  request.end();
 });
-
-// const setIsItRaining = () => {
-//   let precipArr = minutelyForecast.data.map(min => {
-//     return min.precipProbability;
-//   });
-//
-//   precipArr.forEach(prob => {
-//     if (prob >= 0.5) {
-//       isItRaining = 2;
-//     } else if (prob >= 0.1) {
-//       isItRaining = 1;
-//     } else {
-//       isItRaining = 0;
-//     };
-//   });
-// };
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
