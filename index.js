@@ -1,5 +1,5 @@
-// $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/location
-// $ curl -X GET -H 'Content-Type: application/json' http://localhost:3000/weather
+// $ curl -X GET -H 'Content-Type: application/json' http://localhost:8081/location
+// $ curl -X GET -H 'Content-Type: application/json' http://localhost:8081/weather
 
 const express = require('express');
 const https = require('https');
@@ -36,10 +36,12 @@ app.get('/location', (req, res) => {
 
     response.on('end', () => {
       let coords = JSON.parse(data);
+
       lat = coords.location.lat.toFixed(3);
       lng = coords.location.lng.toFixed(3);
       setDarkSkyOptions();
 
+      res.send(coords);
       console.log('No more data in response.');
     });
   });
@@ -80,8 +82,9 @@ app.get('/weather', (req, res) => {
 
         if (minutelyForecast) {
           setIsItRaining();
-          console.log(isItRaining);
         };
+
+        res.send(parsed);
       });
     });
 
