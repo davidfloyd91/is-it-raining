@@ -4,7 +4,7 @@
 const express = require('express');
 const https = require('https');
 const app = express();
-const port = 3000;
+const port = 8081;
 
 const googleKey = process.env.GOOGLE_API_KEY;
 const darkSkyKey = process.env.DARK_SKY_API_KEY;
