@@ -6,11 +6,16 @@
 
 const express = require('express');
 const https = require('https');
+const cors = require('cors');
 const app = express();
 const port = 8081;
 
 const googleKey = process.env.GOOGLE_API_KEY;
 const darkSkyKey = process.env.DARK_SKY_API_KEY;
+
+const corsOptions = {
+  origin: '*'
+}
 
 const googleOptions = {
   hostname: 'www.googleapis.com',
@@ -23,7 +28,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.get('/location', (req, res) => {
+app.get('/location', cors(corsOptions), (req, res) => {
   let data = '';
 
   const request = https.request(googleOptions, (response) => {
