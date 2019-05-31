@@ -1,8 +1,3 @@
-// $ curl -X GET -H 'Content-Type: application/json' http://localhost:8081/weather
-// $ curl -X GET -H 'Content-Type: application/json' http://localhost:8081/location/11225
-
-// $ curl -X GET -H 'Content-Type: application/json' http://is-it-raining-env.mqxjxhgsyd.us-east-1.elasticbeanstalk.com/weather
-
 const express = require('express');
 const https = require('https');
 const cors = require('cors');
