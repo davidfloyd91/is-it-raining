@@ -2,6 +2,8 @@
 
 __Is It Gonna Rain?__ is a Chrome extension that answers one simple question: how likely is it to rain in the next hour where you are? The frontend lives at [this repo](https://github.com/davidfloyd91/is-it-raining-frontend).
 
+Download the extension from the Chrome Web Store [here](https://chrome.google.com/webstore/detail/is-it-gonna-rain/nadehodhmoogambiebejlonkdifmobbp).
+
 When this route—
 
 ```
