@@ -8,7 +8,7 @@ const darkSkyKey = process.env.DARK_SKY_API_KEY;
 const googleKey = process.env.GOOGLE_API_KEY;
 
 const corsOptions = {
-  origin: '*'
+  origin: 'chrome-extension://nadehodhmoogambiebejlonkdifmobbp'
 }
 
 app.get('/', (req, res) => {
@@ -54,11 +54,12 @@ app.get('/location/:zip', cors(corsOptions), (req, res) => {
   const zip = req.params.zip;
   let data = '';
 
-  if (req.headers.origin) {
-    console.log('origin', req.headers.origin)
-  } else {
-    console.log('no req.headers.origin')
-  }
+  // log origin
+  // if (req.headers.origin) {
+  //   console.log('origin', req.headers.origin)
+  // } else {
+  //   console.log('no req.headers.origin')
+  // }
 
   const googleOptions = {
     hostname: 'maps.googleapis.com',
