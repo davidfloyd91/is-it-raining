@@ -26,12 +26,6 @@ app.get('/weather/:lat,:lng', cors(corsOptions), (req, res) => {
     headers: { 'Content-Type': 'application/json' }
   };
 
-  if (req.headers.origin) {
-    console.log('origin', req.headers.origin)
-  } else {
-    console.log('no req.headers.origin')
-  }
-
   const request = https.request(darkSkyOptions, (response) => {
     console.log(`STATUS: ${response.statusCode}`);
     console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
@@ -59,6 +53,12 @@ app.get('/weather/:lat,:lng', cors(corsOptions), (req, res) => {
 app.get('/location/:zip', cors(corsOptions), (req, res) => {
   const zip = req.params.zip;
   let data = '';
+
+  if (req.headers.origin) {
+    console.log('origin', req.headers.origin)
+  } else {
+    console.log('no req.headers.origin')
+  }
 
   const googleOptions = {
     hostname: 'maps.googleapis.com',
