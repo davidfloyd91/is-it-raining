@@ -94,3 +94,4 @@ app.get('/location/:zip', cors(corsOptions), (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);
 });
+
